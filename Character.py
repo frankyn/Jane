@@ -16,7 +16,7 @@ class Character():
         self.max_morale = 100
         self.morale = self.max_morale
 
-        self.max_hygiene
+        self.max_hygiene = 100
         self.hygiene = self.max_hygiene
 
         self.max_fatigue = 100
@@ -91,3 +91,27 @@ class Character():
                 self.hunger = self.max_hunger
             else:
                 self.hunger = self.hunger + amount
+
+    def __str__ ( self ):
+        print "Character:"
+        print "--Name: " + self.name
+        print "--Gender: " + self.gender
+
+        #Status
+        print "--Status: " + self.status 
+        
+        #Resources
+        print "--Health: " + str ( self.health ) 
+        print "--Morale: " + str ( self.morale ) 
+        print "--Hygiene: " + str ( self.hygiene )
+        print "--Fatigue: " + str ( self.fatigue )
+        print "--Hunger: " + str ( self.hunger ) 
+
+        #Skills
+        print "--Fight: " + str ( self.fight ) 
+        print "--Sneak: " + str ( self.sneak )
+        print "--Medical: " + str ( self.medical )
+        print "--Spot: " + str ( self.spot )
+        print "--Speed: " + str ( self.speed ) 
+
+        return ""
