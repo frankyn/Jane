@@ -15,4 +15,10 @@ class EventMediator ( ):
 		self.observers.insert ( 0 , observer )
 
 	def removeObserver ( self , observer ):
-		pass
+		i = 0
+		for o in self.observers:
+			if o == observer:
+				self.observers.pop ( i )
+			i+=1
+		
+		
