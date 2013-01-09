@@ -15,7 +15,7 @@ class Ticker ( ):
 		while self.keepGoing:
 			delay = clock.tick(100)
 			if elapsed_frames % 100 == 1:
-				print(delay)
+				pass
 
 			event = Events.TickEvent()
 			self.mediator.post(event)
