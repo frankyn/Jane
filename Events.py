@@ -17,6 +17,11 @@ class NewCharacterEvent ( ):
 		self.name = "New Character Event"
 		self.character = character
 
-class ClusterDoneEvent ( ):
+class ClusterCharacterAdded ( ):
 	def __init__ ( self ):
 		self.name = "Cluster Done Event"
+
+class ClusterWeatherEvent ( ):
+	def __init__ ( self , weather ):
+		self.name = "Cluster Weather Event"
+		self.weather = weather

@@ -3,16 +3,16 @@
 class Attribute ( ):
 	def __init__ ( self, name ):
 		self.name = name
-		self.values = {}
+		self.value = False
 
 	def getName ( self ):
 		return self.name
 
-	def setValue ( self, name, value ):
-		self.values [ name ] = value
+	def setValue ( self , value ):
+		self.value = value
 
-	def getValue ( self, name ):
-		return self.values [ name ]
+	def getValue ( self ):
+		return self.value
 
 	def __str__ ( self ):
 		print "Attribute:"

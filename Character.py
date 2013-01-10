@@ -1,7 +1,7 @@
 #2013 Mindfuck Labs Thinga-muh-boober
 
-class Character():
-    def __init__(self):
+class Character ( ):
+    def __init__ ( self ):
         #Information
         self.name = "Blank"
         self.gender = "Both"
@@ -32,7 +32,13 @@ class Character():
         self.spot = 10
         self.speed = 10
 
-    def change_health(amount):
+    def isAlive ( self ):
+        if self.health > 0:
+            return True
+        else:
+            return False
+
+    def change_health ( self , amount ):
         if (amount <= 0):
             if (amount + self.health <= 0):
                 self.health = 0
@@ -44,7 +50,7 @@ class Character():
             else:
                 self.health = self.health + amount
 
-    def change_morale(amount):
+    def change_morale ( self , amount ):
         if (amount <= 0):
             if (amount + self.morale <= 0):
                 self.morale = 0
@@ -56,7 +62,7 @@ class Character():
             else:
                 self.morale = self.morale + amount
 
-    def change_hygiene(amount):
+    def change_hygiene ( self , amount ):
         if (amount <= 0):
             if (amount + self.hygiene <= 0):
                 self.hygiene = 0
@@ -68,7 +74,7 @@ class Character():
             else:
                 self.hygiene = self.hygiene + amount
 
-    def change_fatigue(amount):
+    def change_fatigue ( self , amount ):
         if (amount <= 0):
             if (amount + self.fatigue <= 0):
                 self.fatigue = 0
@@ -80,7 +86,7 @@ class Character():
             else:
                 self.fatigue = self.fatigue + amount
 
-    def change_hunger(amount):
+    def change_hunger ( self , amount ):
         if (amount <= 0):
             if (amount + self.hunger <= 0):
                 self.hunger = 0
