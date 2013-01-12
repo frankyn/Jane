@@ -17,7 +17,7 @@ class CharacterCreation ( ):
 		self.count = 0
 
 	def dummyCharacters ( self ):
-		print "Dummy Characters"
+		print ("Dummy Characters")
 		self.state = CharacterCreation.DONE
 		#A dummy character created
 		#This can be switched out with user control of some kind

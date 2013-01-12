@@ -27,7 +27,7 @@ class Cluster ( ):
   #notify method to be called when an observable event happens
   def notify ( self , event ):
     if isinstance ( event , Events.NewGroupEvent ):
-      print "Group added"
+      print ("Group added")
       self.addGroup ( event.group )
 
     if isinstance ( event , Events.ClusterWeatherEvent ):

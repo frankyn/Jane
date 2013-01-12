@@ -41,7 +41,7 @@ class JaneRunner ( ):
 	#When a Character is created we add them into main cluster
 	def addCharacter ( self , character ):
 		#Group 0 is the main screen cluster
-		print 'Character Created'
+		print ('Character Created')
 		if character.group == 0:
 			self.characters.append ( character )
 
@@ -104,7 +104,7 @@ class JaneRunner ( ):
 			if self.state == JaneRunner.RUNNING:
 				#Add a character count check to make sure all characters are dead.
 				#kill game if all characters dead
-				print 'All Characteres Dead.'
+				print ('All Characteres Dead.')
 				ev = Events.QuitGameEvent ( )
 				self.mediator.post ( ev )
 
