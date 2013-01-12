@@ -25,6 +25,7 @@ class JaneRunner ( ):
 		self.characters = []
 		self.mediator = mediator
 		self.mediator.addObserver ( self )
+		self.killerID = 0
 	
 	#Preparation is done and start is called to start running the game
 	def start ( self ):
@@ -41,7 +42,6 @@ class JaneRunner ( ):
 	#When a Character is created we add them into main cluster
 	def addCharacter ( self , character ):
 		#Group 0 is the main screen cluster
-		print ('Character Created')
 		if character.group == 0:
 			self.characters.append ( character )
 
@@ -79,8 +79,7 @@ class JaneRunner ( ):
 		health = Attribute ( "Health" )
 		health.setValue ( -1 )
 		degenerate.addAttribute ( health )
-		
-		ev = Events.CharacterUpdateEvent ( self.characters[0].getName ( ) , degenerate )
+		ev = Events.CharacterUpdateEvent ( self.characters[self.killerID].getName ( ) , degenerate )
 		self.mediator.post ( ev )	
 
 	#Notify JaneRunner of an event posted
@@ -100,8 +99,11 @@ class JaneRunner ( ):
 		elif isinstance ( event , Events.FinishedCharactersEvent ):
 			if self.state == JaneRunner.WAITING:
 				self.start ( )
-		elif isinstance ( event , Events.DeadCharacterEvent ):
+		elif isinstance ( event , Events.CharacterDeadEvent ):
 			if self.state == JaneRunner.RUNNING:
+				self.killerID += 1
+		elif isinstance ( event , Events.ClusterDeadEvent ):
+			if self.state == JaneRunner.RUNNING and event.group == 0:
 				#Add a character count check to make sure all characters are dead.
 				#kill game if all characters dead
 				print ('All Characteres Dead.')

@@ -9,12 +9,23 @@ class Cluster ( ):
   def __init__ ( self , mediator ):
     self.mediator = mediator
     self.mediator.addObserver ( self )
-    self.groups = [] #List
+    self.groups = {} #List
     self.attributes = {} #Hash Map
 
-	#add a Character Model to characters list
+	#add a Group to groups hashmap
   def addGroup ( self, group ):
-    self.groups.append ( group )
+    self.groups[group] = 0
+
+  #increase group size
+  def increaseGroup ( self , group ):
+    self.groups[group] += 1
+
+  #decrease group size
+  def decreaseGroup ( self , group ):
+    self.groups[group] -= 1
+    if self.groups[group] <= 0:
+      #All Characters Dead
+      self.mediator.post ( Events.ClusterDeadEvent ( group ) )
 
 	#add an Attribute to attributes Hash Map
   def setAttribute ( self, attributeData ):
@@ -27,10 +38,15 @@ class Cluster ( ):
   #notify method to be called when an observable event happens
   def notify ( self , event ):
     if isinstance ( event , Events.NewGroupEvent ):
-      print ("Group added")
       self.addGroup ( event.group )
 
-    if isinstance ( event , Events.ClusterWeatherEvent ):
+    elif isinstance ( event , Events.NewCharacterEvent ):
+      self.increaseGroup ( event.character.getGroup ( ) )
+
+    elif isinstance ( event , Events.CharacterDeadEvent ):
+      self.decreaseGroup ( event.character.getGroup ( ) )
+
+    elif isinstance ( event , Events.ClusterWeatherEvent ):
       weather = event.weather
       i = 0
       #NEED TO CHANGE THIS TO WORK WITH GROUPS

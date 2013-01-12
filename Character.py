@@ -66,7 +66,8 @@ class Character ( ):
             if (amount + self.health <= 0):
                 self.health = 0
                 print self.getName ( ) + " died."
-                self.mediator.post ( Events.DeadCharacterEvent ( self ) );
+                self.mediator.post ( Events.CharacterDeadEvent ( self ) );
+                self.mediator.removeObserver ( self )
             else:
                 self.health = self.health + amount
         else: #amount > 0

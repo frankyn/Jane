@@ -30,6 +30,14 @@ class CharacterCreation ( ):
 		#Dummy Character
 		char = Character ( self.mediator , 0 )
 		char.setName ( "Name" + str(self.count) )
+		print (char.getName ( ))
+		ev = Events.NewCharacterEvent ( char )
+		self.mediator.post ( ev )
+		self.count += 1
+		#Dummy Character
+		char = Character ( self.mediator , 0 )
+		char.setName ( "Name" + str(self.count) )
+		print (char.getName ( ))
 		ev = Events.NewCharacterEvent ( char )
 		self.mediator.post ( ev )
 		self.count += 1
