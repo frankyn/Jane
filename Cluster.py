@@ -9,12 +9,12 @@ class Cluster ( ):
   def __init__ ( self , mediator ):
     self.mediator = mediator
     self.mediator.addObserver ( self )
-    self.characters = [] #List
+    self.groups = [] #List
     self.attributes = {} #Hash Map
 
 	#add a Character Model to characters list
-  def addCharacter ( self, characterModel ):
-    self.characters.insert ( 0, characterModel )
+  def addGroup ( self, group ):
+    self.groups.append ( group )
 
 	#add an Attribute to attributes Hash Map
   def setAttribute ( self, attributeData ):
@@ -26,18 +26,18 @@ class Cluster ( ):
 
   #notify method to be called when an observable event happens
   def notify ( self , event ):
-    if isinstance ( event , Events.NewCharacterEvent ):
-      print ("Character added")
-      self.addCharacter ( event.character )
-      self.mediator.post ( Events.ClusterCharacterAdded ( ) )
+    if isinstance ( event , Events.NewGroupEvent ):
+      print "Group added"
+      self.addGroup ( event.group )
 
     if isinstance ( event , Events.ClusterWeatherEvent ):
       weather = event.weather
       i = 0
-      for character in self.characters:
-        #Check for all possible changes within a characters stats
-        #If available then get its value and apply it to a character
-        if character.isAlive ( ): 
+      #NEED TO CHANGE THIS TO WORK WITH GROUPS
+      for group in self.groups:
+        for characterID in group:
+          #Check for all possible changes within a characters stats
+          #If available then get its value and apply it to a character
           if weather.getAttribute ( "Health" ):
             heatlh = weather.getAttribute ( "Health" ) . getValue ( )
             character.change_health ( heatlh )
@@ -53,11 +53,7 @@ class Cluster ( ):
           if weather.getAttribute ( "Morale" ):
             morale = weather.getAttribute ( "Morale" ) . getValue ( )
             character.change_morale ( morale )
-        else:
-          self.characters.pop ( i )
-        i += 1
-      if len ( self.characters ) == 0:
-        self.mediator.post ( Events.QuitGameEvent ( ) )  
+          i += 1
 
 	#Print out cluster information for attributes and characters
   def __str__ ( self ):

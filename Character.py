@@ -1,7 +1,12 @@
 #2013 Mindfuck Labs Thinga-muh-boober
+#Events
+import Events
 
 class Character ( ):
-    def __init__ ( self ):
+    def __init__ ( self , mediator , group ):
+        self.mediator = mediator
+        self.mediator.addObserver ( self )
+        self.group = group
         #Information
         self.name = "Blank"
         self.gender = "Both"
@@ -32,16 +37,36 @@ class Character ( ):
         self.spot = 10
         self.speed = 10
 
+    def notify ( self , event ):
+        if isinstance ( event , Events.CharacterUpdateEvent ):
+            if event.id == self.getName ( ):
+                if event.update.getAttribute ( "Health" ):
+                    self.change_health ( event.update.getAttribute ( "Health" ).getValue ( ) )        
+
     def isAlive ( self ):
         if self.health > 0:
             return True
         else:
             return False
 
+    def setName ( self , name ):
+        self.name = name
+
+    def getName ( self ):
+        return self.name
+
+    def setGroup ( self , group ):
+        self.group = group
+
+    def getGroup ( self ):
+        return self.group
+
     def change_health ( self , amount ):
         if (amount <= 0):
             if (amount + self.health <= 0):
                 self.health = 0
+                print self.getName ( ) + " died."
+                self.mediator.post ( Events.DeadCharacterEvent ( self ) );
             else:
                 self.health = self.health + amount
         else: #amount > 0

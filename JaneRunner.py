@@ -15,29 +15,35 @@ from Weather import Weather
 #Main Container for Jade
 class JaneRunner ( ):
 	PREPARING = 0
-	RUNNING = 1
+	WAITING = 1
+	RUNNING = 2
 
 	#Pass in mediator 
 	#JadeRunner will add in itself
 	def __init__ ( self , mediator ):
 		self.state = JaneRunner.PREPARING
-		self.mediator = mediator;
+		self.characters = []
+		self.mediator = mediator
 		self.mediator.addObserver ( self )
-		self.charactersCount = 3
-		self.charactersCreated = 0
 	
 	#Preparation is done and start is called to start running the game
 	def start ( self ):
 		print ("JadeRunner - Started")
+
 		self.state = JaneRunner.RUNNING
 
 	#Prepare a cluster of characters and send them to a Cluster Observer
 	def prepare ( self ):
-		char = Character ( )
-		ev = Events.NewCharacterEvent ( char )
+		self.state = JaneRunner.WAITING
+		ev = Events.NewGameEvent ( )
 		self.mediator.post ( ev )
-		self.mediator.post ( ev )
-		self.mediator.post ( ev )
+ 
+	#When a Character is created we add them into main cluster
+	def addCharacter ( self , character ):
+		#Group 0 is the main screen cluster
+		print 'Character Created'
+		if character.group == 0:
+			self.characters.append ( character )
 
 	#Weather the cluster with a few a few attacks
 	def weather ( self ):
@@ -68,6 +74,14 @@ class JaneRunner ( ):
 		ev = Events.ClusterWeatherEvent ( time )
 		self.mediator.post ( ev )
 
+	def dummyMethod_killACharacter ( self ):
+		degenerate = Weather ( )
+		health = Attribute ( "Health" )
+		health.setValue ( -1 )
+		degenerate.addAttribute ( health )
+		
+		ev = Events.CharacterUpdateEvent ( self.characters[0].getName ( ) , degenerate )
+		self.mediator.post ( ev )	
 
 	#Notify JaneRunner of an event posted
 	def notify ( self , event ):
@@ -75,10 +89,22 @@ class JaneRunner ( ):
 			if self.state == JaneRunner.PREPARING:
 				self.prepare ( )
 			elif self.state == JaneRunner.RUNNING:
-				self.weather ( )
-
+				self.dummyMethod_killACharacter ( )
+				pass
 		elif isinstance ( event , Events.ClusterCharacterAdded ):
-			self.charactersCreated += 1
-			if self.state == JaneRunner.PREPARING and self.charactersCreated == self.charactersCount:
+			if self.state == JaneRunner.WAITING:
+				pass
+		elif isinstance ( event , Events.NewCharacterEvent ):
+			if self.state == JaneRunner.WAITING:
+				self.addCharacter ( event.character )
+		elif isinstance ( event , Events.FinishedCharactersEvent ):
+			if self.state == JaneRunner.WAITING:
 				self.start ( )
+		elif isinstance ( event , Events.DeadCharacterEvent ):
+			if self.state == JaneRunner.RUNNING:
+				#Add a character count check to make sure all characters are dead.
+				#kill game if all characters dead
+				print 'All Characteres Dead.'
+				ev = Events.QuitGameEvent ( )
+				self.mediator.post ( ev )
 
