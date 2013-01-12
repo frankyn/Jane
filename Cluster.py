@@ -27,7 +27,7 @@ class Cluster ( ):
   #notify method to be called when an observable event happens
   def notify ( self , event ):
     if isinstance ( event , Events.NewCharacterEvent ):
-      print "Character added"
+      print ("Character added")
       self.addCharacter ( event.character )
       self.mediator.post ( Events.ClusterCharacterAdded ( ) )
 
@@ -61,13 +61,13 @@ class Cluster ( ):
 
 	#Print out cluster information for attributes and characters
   def __str__ ( self ):
-    print "Cluster"
-    print "--Attributes"
+    print ("Cluster")
+    print ("--Attributes")
     for hashKey in self.attributes:
-      print self.attributes [ hashKey ]
+      print (self.attributes [ hashKey ])
 		
-    print "--Characters"
+    print ("--Characters")
     for character in self.characters:
-      print character
+      print (character)
     return ""
 

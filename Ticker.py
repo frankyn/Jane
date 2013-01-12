@@ -23,6 +23,6 @@ class Ticker ( ):
 
 	def notify ( self , event ):
 		if isinstance ( event , Events.QuitGameEvent ):
-			print "Ticker: Quit Game Event Called"
+			print ("Ticker: Quit Game Event Called")
 			#this will stop the while loop from running
 			self.keepGoing = False

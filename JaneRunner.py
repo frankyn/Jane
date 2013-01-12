@@ -28,7 +28,7 @@ class JaneRunner ( ):
 	
 	#Preparation is done and start is called to start running the game
 	def start ( self ):
-		print "JadeRunner - Started"
+		print ("JadeRunner - Started")
 		self.state = JaneRunner.RUNNING
 
 	#Prepare a cluster of characters and send them to a Cluster Observer
@@ -69,7 +69,7 @@ class JaneRunner ( ):
 		self.mediator.post ( ev )
 
 
-	#Notify JadeRunner of an event posted
+	#Notify JaneRunner of an event posted
 	def notify ( self , event ):
 		if isinstance ( event , Events.TickEvent ):
 			if self.state == JaneRunner.PREPARING:

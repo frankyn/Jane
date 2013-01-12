@@ -15,10 +15,10 @@ class Attribute ( ):
 		return self.value
 
 	def __str__ ( self ):
-		print "Attribute:"
-		print "--Name: " + self.name
-		for hashKey in self.values:
-			print "--" + str ( hashKey ) + ": " + str ( self.values [ hashKey ] )
+		print ("Attribute:")
+		print ("--Name: " + self.name)
+		for hashKey in self.values: #self.values does not seem to be defined?
+			print ("--" + str ( hashKey ) + ": " + str ( self.values [ hashKey ] ))
 
-  		return ""
+  		#return ""
 
