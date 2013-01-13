@@ -38,6 +38,8 @@ class Character ( ):
         self.speed = 10
 
     def notify ( self , event ):
+        if not self.isAlive ( ):
+            return
         if isinstance ( event , Events.CharacterUpdateEvent ):
             if event.id == self.getName ( ):
                 if event.update.getAttribute ( "Health" ):
@@ -65,9 +67,8 @@ class Character ( ):
         if (amount <= 0):
             if (amount + self.health <= 0):
                 self.health = 0
-                print self.getName ( ) + " died."
-                self.mediator.post ( Events.CharacterDeadEvent ( self ) );
-                self.mediator.removeObserver ( self )
+                print (self.getName ( ) + " died.")
+                self.mediator.post ( Events.CharacterDeadEvent ( self ) )
             else:
                 self.health = self.health + amount
         else: #amount > 0
