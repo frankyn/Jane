@@ -5,7 +5,8 @@
 from Character import Character
 from Cluster import Cluster
 from Attribute import Attribute
-
+#Controllers
+from Menu import Menu
 #Events
 import Events
 
@@ -30,15 +31,13 @@ class JaneRunner ( ):
 	#Preparation is done and start is called to start running the game
 	def start ( self ):
 		print ("JadeRunner - Started")
-
 		self.state = JaneRunner.RUNNING
 
-	#Prepare a cluster of characters and send them to a Cluster Observer
+	#Create a Menu Controller to start the type of game
 	def prepare ( self ):
 		self.state = JaneRunner.WAITING
-		ev = Events.NewGameEvent ( )
-		self.mediator.post ( ev )
- 
+		self.menu = Menu ( self.mediator )
+
 	#When a Character is created we add them into main cluster
 	def addCharacter ( self , character ):
 		#Group 0 is the main screen cluster
@@ -106,7 +105,7 @@ class JaneRunner ( ):
 			if self.state == JaneRunner.RUNNING and event.group == 0:
 				#Add a character count check to make sure all characters are dead.
 				#kill game if all characters dead
-				print ('All Characteres Dead.')
+				print ('All Characters Dead.')
 				ev = Events.QuitGameEvent ( )
 				self.mediator.post ( ev )
 
