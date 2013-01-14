@@ -47,6 +47,7 @@ class JaneRunner ( ):
 	#Weather the cluster with a few a few attacks
 	def weather ( self ):
 		#Create Weather Class as a container to what will happen during time
+		#THIS NEEDS TO BE SET TO PRACTICAL DEGENERATIVE PARAMETERS
 		time = Weather ( )
 		#Add Attributes this Weather will help
 		morale = Attribute ( "Morale" )
@@ -70,7 +71,7 @@ class JaneRunner ( ):
 		time.addAttribute ( health )
 
 		#Post as a Cluster Weather Event
-		ev = Events.ClusterWeatherEvent ( time )
+		ev = Events.ClusterWeatherEvent ( 0 , time )
 		self.mediator.post ( ev )
 
 	def dummyMethod_killACharacter ( self ):
@@ -88,7 +89,7 @@ class JaneRunner ( ):
 				self.prepare ( )
 		elif isinstance ( event , Events.GameTimeEvent ):
 			if self.state == JaneRunner.RUNNING:
-				self.dummyMethod_killACharacter ( )
+				self.weather ( )
 		elif isinstance ( event , Events.ClusterCharacterAdded ):
 			if self.state == JaneRunner.WAITING:
 				pass

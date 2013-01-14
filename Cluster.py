@@ -46,31 +46,6 @@ class Cluster ( ):
     elif isinstance ( event , Events.CharacterDeadEvent ):
       self.decreaseGroup ( event.character.getGroup ( ) )
 
-    elif isinstance ( event , Events.ClusterWeatherEvent ):
-      weather = event.weather
-      i = 0
-      #NEED TO CHANGE THIS TO WORK WITH GROUPS
-      for group in self.groups:
-        for characterID in group:
-          #Check for all possible changes within a characters stats
-          #If available then get its value and apply it to a character
-          if weather.getAttribute ( "Health" ):
-            heatlh = weather.getAttribute ( "Health" ) . getValue ( )
-            character.change_health ( heatlh )
-          if weather.getAttribute ( "Hygiene" ):
-            hygiene = weather.getAttribute ( "Hygiene" ) . getValue ( )
-            character.change_hygiene ( hygiene )
-          if weather.getAttribute ( "Hunger" ):
-            hunger = weather.getAttribute ( "Hunger" ) . getValue ( )
-            character.change_hunger ( hunger )
-          if weather.getAttribute ( "Fatigue" ):
-            fatigue = weather.getAttribute ( "Fatigue" ) . getValue ( )
-            character.change_fatigue ( fatigue )
-          if weather.getAttribute ( "Morale" ):
-            morale = weather.getAttribute ( "Morale" ) . getValue ( )
-            character.change_morale ( morale )
-          i += 1
-
 	#Print out cluster information for attributes and characters
   def __str__ ( self ):
     print ("Cluster")

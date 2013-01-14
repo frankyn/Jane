@@ -43,7 +43,25 @@ class Character ( ):
         if isinstance ( event , Events.CharacterUpdateEvent ):
             if event.id == self.getName ( ):
                 if event.update.getAttribute ( "Health" ):
-                    self.change_health ( event.update.getAttribute ( "Health" ).getValue ( ) )        
+                    self.change_health ( event.update.getAttribute ( "Health" ).getValue ( ) )   
+        if isinstance ( event , Events.ClusterWeatherEvent ):
+            if event.group == self.group:
+                weather = event.weather
+                if weather.getAttribute ( "Health" ):
+                    heatlh = weather.getAttribute ( "Health" ) . getValue ( )
+                    self.change_health ( heatlh )
+                if weather.getAttribute ( "Hygiene" ):
+                    hygiene = weather.getAttribute ( "Hygiene" ) . getValue ( )
+                    self.change_hygiene ( hygiene )
+                if weather.getAttribute ( "Hunger" ):
+                    hunger = weather.getAttribute ( "Hunger" ) . getValue ( )
+                    self.change_hunger ( hunger )
+                if weather.getAttribute ( "Fatigue" ):
+                    fatigue = weather.getAttribute ( "Fatigue" ) . getValue ( )
+                    self.change_fatigue ( fatigue )
+                if weather.getAttribute ( "Morale" ):
+                    morale = weather.getAttribute ( "Morale" ) . getValue ( )
+                    self.change_morale ( morale )
 
     def isAlive ( self ):
         if self.health > 0:

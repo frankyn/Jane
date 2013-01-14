@@ -46,8 +46,9 @@ class ClusterCharacterAdded ( ):
 		self.name = "Cluster Done Event"
 
 class ClusterWeatherEvent ( ):
-	def __init__ ( self , weather ):
+	def __init__ ( self , group , weather ):
 		self.name = "Cluster Weather Event"
+		self.group = group
 		self.weather = weather
 
 class ClusterDeadEvent ( ):
