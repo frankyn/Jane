@@ -12,6 +12,10 @@ class QuitGameEvent ( ):
 	def __init__ ( self ):
 		self.name = "Quit Game Event"
 
+class GameTimeEvent ( ):
+	def __init__ ( self ):
+		self.name = "GameTimeEvent"
+
 class NewCharacterEvent ( ):
 	def __init__ ( self , character ):
 		self.name = "New Character Event"

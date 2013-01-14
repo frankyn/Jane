@@ -8,15 +8,19 @@ class Ticker ( ):
 		self.mediator = mediator
 		self.mediator.addObserver ( self )
 		self.keepGoing = 1
+		self.elapsedTime = 0
 
 	def run ( self ):
 		clock = pygame.time.Clock()
 		elapsed_frames = 0
 		while self.keepGoing:
-			delay = clock.tick(100)
-			if elapsed_frames % 100 == 1:
-				pass
-
+			self.elapsedTime += clock.tick(100)
+			#Second Passed Post GameTimeEvent ( ) 
+			#1 Second = 5 min game time
+			if self.elapsedTime >= 1000:
+				self.elapsedTime = 0
+				self.mediator.post ( Events.GameTimeEvent ( ) )
+				print ("Game Time Event")
 			event = Events.TickEvent()
 			self.mediator.post(event)
 			elapsed_frames += 1
