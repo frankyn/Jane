@@ -40,9 +40,7 @@ class JaneRunner ( ):
 
 	#When a Character is created we add them into main cluster
 	def addCharacter ( self , character ):
-		#Group 0 is the main screen cluster
-		if character.group == 0:
-			self.characters.append ( character )
+		self.characters.append ( character )
 
 	#Weather the cluster with a few a few attacks
 	def weather ( self ):
@@ -67,7 +65,7 @@ class JaneRunner ( ):
 		time.addAttribute ( fatigue )
 
 		health = Attribute ( "Health" )
-		health.setValue ( -1 )
+		health.setValue ( -100 )
 		time.addAttribute ( health )
 
 		#Post as a Cluster Weather Event

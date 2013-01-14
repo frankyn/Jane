@@ -28,18 +28,20 @@ class CharacterCreation ( ):
 		ev = Events.NewGroupEvent ( 0 )
 		self.mediator.post ( ev )
 		#Dummy Character
-		char = Character ( self.mediator , 0 )
+		char = Character ( self.mediator )
 		char.setName ( "Name" + str(self.count) )
 		print (char.getName ( ))
 		ev = Events.NewCharacterEvent ( char )
 		self.mediator.post ( ev )
+		self.mediator.post ( Events.ClusterAddCharacterEvent ( 0 , char.getName ( ) ) )
 		self.count += 1
 		#Dummy Character
-		char = Character ( self.mediator , 0 )
+		char = Character ( self.mediator )
 		char.setName ( "Name" + str(self.count) )
 		print (char.getName ( ))
 		ev = Events.NewCharacterEvent ( char )
 		self.mediator.post ( ev )
+		self.mediator.post ( Events.ClusterAddCharacterEvent ( 0 , char.getName ( ) ) )
 		self.count += 1
 		#Once Finished Creating Characters send event so we can proceed to the next step.
 		ev = Events.FinishedCharactersEvent ( )

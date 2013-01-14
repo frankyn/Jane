@@ -41,6 +41,17 @@ class FinishedCharactersEvent ( ):
 	def __init__ ( self ):
 		self.name = "Finished Characters Event"
 
+class ClusterAddCharacterEvent ( ):
+	def __init__ ( self , group , characterID ):
+		self.name = "Cluster Add Character Event"
+		self.group = group
+		self.characterID = characterID
+
+class ClusterRemoveCharacterEvent ( ):
+	def __init__ ( self , characterID ):
+		self.name = "Cluster Remove Character Event"
+		self.characterID = characterID
+
 class ClusterCharacterAdded ( ):
 	def __init__ ( self ):
 		self.name = "Cluster Done Event"

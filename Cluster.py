@@ -14,18 +14,28 @@ class Cluster ( ):
 
 	#add a Group to groups hashmap
   def addGroup ( self, group ):
-    self.groups[group] = 0
+    self.groups[group] = []
 
   #increase group size
-  def increaseGroup ( self , group ):
-    self.groups[group] += 1
+  def increaseGroup ( self , group , characterID ):
+    self.groups[group].append ( characterID )
 
   #decrease group size
-  def decreaseGroup ( self , group ):
-    self.groups[group] -= 1
-    if self.groups[group] <= 0:
+  def decreaseGroup ( self , characterID ):
+    parentGroup = ''
+    for group in self.groups:
+      i=0
+      for ID in self.groups[group]:
+        if characterID == ID:
+          parentGroup = group
+          self.groups[group].pop ( i )
+          break
+        i+=1
+      if not parentGroup=='':
+        break 
+    if len ( self.groups[parentGroup] ) <= 0:
       #All Characters Dead
-      self.mediator.post ( Events.ClusterDeadEvent ( group ) )
+      self.mediator.post ( Events.ClusterDeadEvent ( parentGroup ) )
 
 	#add an Attribute to attributes Hash Map
   def setAttribute ( self, attributeData ):
@@ -40,12 +50,16 @@ class Cluster ( ):
     if isinstance ( event , Events.NewGroupEvent ):
       self.addGroup ( event.group )
 
-    elif isinstance ( event , Events.NewCharacterEvent ):
-      self.increaseGroup ( event.character.getGroup ( ) )
+    elif isinstance ( event , Events.ClusterAddCharacterEvent ):
+      self.increaseGroup ( event.group , event.characterID )
 
-    elif isinstance ( event , Events.CharacterDeadEvent ):
-      self.decreaseGroup ( event.character.getGroup ( ) )
+    elif isinstance ( event , Events.ClusterRemoveCharacterEvent ):
+      self.decreaseGroup ( event.characterID )
 
+    elif isinstance ( event , Events.ClusterWeatherEvent ):
+      for characterID in self.groups[event.group]:
+        self.mediator.post ( Events.CharacterUpdateEvent ( characterID , event.weather ) )
+        
 	#Print out cluster information for attributes and characters
   def __str__ ( self ):
     print ("Cluster")
