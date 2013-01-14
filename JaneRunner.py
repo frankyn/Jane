@@ -86,9 +86,9 @@ class JaneRunner ( ):
 		if isinstance ( event , Events.TickEvent ):
 			if self.state == JaneRunner.PREPARING:
 				self.prepare ( )
-			elif self.state == JaneRunner.RUNNING:
+		elif isinstance ( event , Events.GameTimeEvent ):
+			if self.state == JaneRunner.RUNNING:
 				self.dummyMethod_killACharacter ( )
-				pass
 		elif isinstance ( event , Events.ClusterCharacterAdded ):
 			if self.state == JaneRunner.WAITING:
 				pass

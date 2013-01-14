@@ -20,7 +20,6 @@ class Ticker ( ):
 			if self.elapsedTime >= 1000:
 				self.elapsedTime = 0
 				self.mediator.post ( Events.GameTimeEvent ( ) )
-				print ("Game Time Event")
 			event = Events.TickEvent()
 			self.mediator.post(event)
 			elapsed_frames += 1
