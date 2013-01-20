@@ -1,12 +1,19 @@
 #This is where all the objects are stored so we can create a new game from here.
 #The idea is to start events from a single location and let the EventMediator manage all events posted.
 
+#PyGame
+import os, sys
+import pygame
+from pygame.locals import *
+
 #Models
 from Character import Character
 from Cluster import Cluster
 from Attribute import Attribute
 #Controllers
 from Menu import Menu
+#Views
+
 #Events
 import Events
 
@@ -21,7 +28,16 @@ class JaneRunner ( ):
 
 	#Pass in mediator 
 	#JadeRunner will add in itself
-	def __init__ ( self , mediator ):
+	def __init__ ( self , mediator , width=800 , height=600 ):
+		#PyGame INIT
+		pygame.init()
+        #Set the window Size
+        self.width = width
+        self.height = height
+        #Create the Screen
+        self.screen = pygame.display.set_mode ( self.width , self.height )
+		
+		#JadeRunner INIT
 		self.state = JaneRunner.PREPARING
 		self.characters = []
 		self.mediator = mediator
@@ -31,6 +47,10 @@ class JaneRunner ( ):
 	#Preparation is done and start is called to start running the game
 	def start ( self ):
 		print ("JadeRunner - Started")
+
+		#PyGame Keys Event
+		pygame.key.set_repeat(500, 30)
+
 		self.state = JaneRunner.RUNNING
 
 	#Create a Menu Controller to start the type of game
