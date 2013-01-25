@@ -14,10 +14,12 @@ from Attribute import Attribute
 #Controllers
 from Menu import Menu
 from CharacterCreation import CharacterCreation
+from Game import Game
 
 #Views
 from MenuView import MenuView
 from CharacterCreationView import CharacterCreationView
+from GameView import GameView
 
 #Events
 import Events
@@ -58,11 +60,12 @@ class JaneRunner ( ):
 	#Preparation is done and start is called to start running the game
 	def start ( self ):
 		print ("JadeRunner - Started")
-
-		#PyGame Keys Event
-		#pygame.key.set_repeat(500, 30)
-
 		self.state = JaneRunner.RUNNING
+		self.clearCV ( )
+		self.controller = Game ( self.mediator )
+		self.view = GameView ( self.mediator , self.screen )
+
+	#Remove observers controller and view from current mediator
 	def clearCV ( self ):
 		if self.controller:
 			self.mediator.removeObserver ( self.controller )
