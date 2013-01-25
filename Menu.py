@@ -2,10 +2,13 @@
 #New Game - Clean Character Creation
 #Continue - Continues a saved entry
 
+#PyGame
+import pygame
+from pygame.locals import *
+
 #Events
 import Events
 #Controllers
-from CharacterCreation import CharacterCreation
 
 class Menu ( ):
 	TURNEDON = 0
@@ -17,7 +20,6 @@ class Menu ( ):
 
 	def newGame ( self ):
 		self.state = Menu.TURNEDOFF
- 		self.characterCreation = CharacterCreation ( self.mediator )
 		self.mediator.post ( Events.NewGameEvent ( ) )
 
 	def dummyController ( self ):
@@ -27,4 +29,12 @@ class Menu ( ):
 	def notify ( self , event ):
 		if isinstance ( event , Events.TickEvent ):
 			if self.state == Menu.TURNEDON:
-				self.dummyController ( )
+				pass
+		else:
+			if isinstance ( event , list ) and self.state == Menu.TURNEDON:
+				for ev in event: 
+					if ev.type == MOUSEBUTTONDOWN:
+						position = pygame.mouse.get_pos ( )
+						#New Game Button
+						if ( position [ 0 ] > 300 and position [ 1 ] > 200 and position [ 0 ] < 500 and position [ 1 ] < 300 ):
+							self.newGame ( )

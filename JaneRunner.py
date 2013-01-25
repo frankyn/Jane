@@ -10,9 +10,14 @@ from pygame.locals import *
 from Character import Character
 from Cluster import Cluster
 from Attribute import Attribute
+
 #Controllers
 from Menu import Menu
+from CharacterCreation import CharacterCreation
+
 #Views
+from MenuView import MenuView
+from CharacterCreationView import CharacterCreationView
 
 #Events
 import Events
@@ -30,15 +35,21 @@ class JaneRunner ( ):
 	#JadeRunner will add in itself
 	def __init__ ( self , mediator , width=800 , height=600 ):
 		#PyGame INIT
-		pygame.init()
-        #Set the window Size
-        self.width = width
-        self.height = height
-        #Create the Screen
-        self.screen = pygame.display.set_mode ( self.width , self.height )
+		pygame.init ( )
+
+		#Set the window Size
+		self.width = width
+		self.height = height
 		
+		#Create the Window
+		pygame.display.set_caption ( "Jane - Month 1" ) 
+		self.window = pygame.display.set_mode ( [ self.width , self.height ] )
+		self.screen = pygame.display.get_surface ( ) 
+
 		#JadeRunner INIT
 		self.state = JaneRunner.PREPARING
+		self.controller = False
+		self.view = False
 		self.characters = []
 		self.mediator = mediator
 		self.mediator.addObserver ( self )
@@ -49,14 +60,27 @@ class JaneRunner ( ):
 		print ("JadeRunner - Started")
 
 		#PyGame Keys Event
-		pygame.key.set_repeat(500, 30)
+		#pygame.key.set_repeat(500, 30)
 
 		self.state = JaneRunner.RUNNING
+	def clearCV ( self ):
+		if self.controller:
+			self.mediator.removeObserver ( self.controller )
+		if self.view:
+			self.mediator.removeObserver ( self.view )
 
 	#Create a Menu Controller to start the type of game
 	def prepare ( self ):
 		self.state = JaneRunner.WAITING
-		self.menu = Menu ( self.mediator )
+		self.clearCV ( )
+		self.controller = Menu ( self.mediator )
+		self.view = MenuView ( self.mediator , self.screen )
+
+	#Called when a new game is started
+	def newGame ( self ):
+		self.clearCV ( )
+ 		self.controller = CharacterCreation ( self.mediator )
+ 		self.view = CharacterCreationView ( self.mediator , self.screen )
 
 	#When a Character is created we add them into main cluster
 	def addCharacter ( self , character ):
@@ -105,6 +129,11 @@ class JaneRunner ( ):
 		if isinstance ( event , Events.TickEvent ):
 			if self.state == JaneRunner.PREPARING:
 				self.prepare ( )
+			else:
+				self.mediator.post ( pygame.event.get() )
+		elif isinstance ( event , Events.NewGameEvent ):
+			if self.state == JaneRunner.WAITING:
+				self.newGame ( )
 		elif isinstance ( event , Events.GameTimeEvent ):
 			if self.state == JaneRunner.RUNNING:
 				self.weather ( )
@@ -127,4 +156,8 @@ class JaneRunner ( ):
 				print ('All Characters Dead.')
 				ev = Events.QuitGameEvent ( )
 				self.mediator.post ( ev )
-
+		else:
+			if isinstance ( event , list ):
+				for ev in event: 
+				    if ev.type == QUIT: 
+				        sys.exit(0) 

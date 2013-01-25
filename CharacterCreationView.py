@@ -7,7 +7,7 @@ import Events
 
 
 #MenuView Class will contain all the necessary logic to render a menu screen inside the PyGame window
-class MenuView ( ):
+class CharacterCreationView ( ):
 	def __init__ ( self , mediator , screen ):	
 		self.screen = screen
 		self.screen_width = self.screen.get_width ( )
@@ -23,7 +23,7 @@ class MenuView ( ):
 		self.screen.blit ( text , textpos )
 
 		font = pygame.font.Font ( None , 36 )
-		text = font.render ( "New Game", 1, ( 0xFF , 0xDE , 0x73 ) )
+		text = font.render ( "Character", 1, ( 0xFF , 0xDE , 0x73 ) )
 		textpos = text.get_rect ( centerx=self.screen_width / 2 , centery=self.screen_height / 2 - 50 )
 		self.screen.blit ( text , textpos )
 		
