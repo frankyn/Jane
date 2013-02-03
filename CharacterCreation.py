@@ -1,6 +1,10 @@
 #This is something like a controller for creating Characters for the game
 #It should work with how you 
 
+# Character Counter 1 - 4
+# Names: Jane , Janet , Juan , Jenifer
+# 
+
 #PyGame
 import pygame
 from pygame.locals import *
@@ -12,13 +16,15 @@ import Events
 from Character import Character
 
 class CharacterCreation ( ):
-	SELECTING = 0
-	DONE = 1
+	STARTING = 0
+	SELECTING = 1
+	DONE = 2
 	def __init__  ( self , mediator ):
 		self.mediator = mediator
 		self.mediator.addObserver ( self )
-		self.state = CharacterCreation.SELECTING
+		self.state = CharacterCreation.STARTING
 		self.count = 0
+		self.characters = []
 
 
 	def completedSelection ( self ):
@@ -58,11 +64,33 @@ class CharacterCreation ( ):
 		self.count += 1
 		self.completedSelection ( )
 		
+	def characterUpdate ( self ):
+		pass
+
+	def characterSetup ( self ):
+		tmpCharacter = Character ( self.mediator )
+		tmpCharacter.setName ( "Juan" )
+		self.characters.append ( tmpCharacter )
+
+		tmpCharacter = Character ( self.mediator )
+		tmpCharacter.setName ( "Jane" )
+		self.characters.append ( tmpCharacter )
+
+		tmpCharacter = Character ( self.mediator )
+		tmpCharacter.setName ( "Janet" )
+		self.characters.append ( tmpCharacter )
+
+		tmpCharacter = Character ( self.mediator )
+		tmpCharacter.setName ( "Jenifer" )
+		self.characters.append ( tmpCharacter )
+
+		self.mediator.post ( Events.CharacterCreatorSetCharacterEvent ( 1 , self.characters[0] ) )
 
 	def notify ( self , event ):
 		if isinstance ( event , Events.TickEvent ):
-			if self.state == CharacterCreation.SELECTING:
-				pass
+			if self.state == CharacterCreation.STARTING:
+				self.state = CharacterCreation.SELECTING
+				self.characterSetup ( )
 		else:
 			if isinstance ( event , list ) and self.state == CharacterCreation.SELECTING:
 				for ev in event: 

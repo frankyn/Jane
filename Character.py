@@ -3,15 +3,23 @@
 import Events
 
 class Character ( ):
+    #Genders
+    MALE = 0
+    FEMALE = 1
+    BOTH = 2
+    #Statuses
+    DEAD = 0
+    ALIVE = 1
+
     def __init__ ( self , mediator ):
         self.mediator = mediator
         self.mediator.addObserver ( self )
         #Information
         self.name = "Blank"
-        self.gender = "Both"
+        self.gender = Character.BOTH
 
         #Flags
-        self.status = "ALIVE"
+        self.status = Character.ALIVE
         
         #Resources
         self.max_health = 100
@@ -137,7 +145,8 @@ class Character ( ):
     def __str__ ( self ):
         print ("Character:")
         print ("--Name: " + self.name)
-        print ("--Gender: " + self.gender)
+        if self.gender == Character.MALE:
+            print ("--Gender: " )
 
         #Status
         print ("--Status: " + self.status )

@@ -139,7 +139,8 @@ class JaneRunner ( ):
 				self.newGame ( )
 		elif isinstance ( event , Events.GameTimeEvent ):
 			if self.state == JaneRunner.RUNNING:
-				self.weather ( )
+				#self.weather ( )
+				pass
 		elif isinstance ( event , Events.ClusterCharacterAdded ):
 			if self.state == JaneRunner.WAITING:
 				pass

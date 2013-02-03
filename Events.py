@@ -66,3 +66,9 @@ class ClusterDeadEvent ( ):
 	def __init__ ( self , group ):
 		self.name = "Cluster Dead Event"
 		self.group = group
+
+class CharacterCreatorSetCharacterEvent ( ):
+	def __init__ ( self , id , character ):
+		self.name = "Character Creator Set Character"
+		self.id = id
+		self.character = character
